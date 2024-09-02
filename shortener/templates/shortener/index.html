@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Link Shortener</title>
+    <style>
+      form {
+        background-color: #dedede; 
+        display: flex;
+        flex-direction: column;
+      }
+
+      input[type="text"] {
+        padding: 12px 12px;
+        box-sizing: border-box;
+      }
+
+    </style>
+  </head>
+  <body>
+    <form action="{% url 'shortener:result' %}" method="post">
+      {% csrf_token %}
+      <label for="url">URL</label>
+      <input type="text" name="url" id="url" />
+      <br/>
+      <label for="alias">Alias</label>
+      <input type="text" name="alias" id="alias"/>
+      <input type="submit">Submit</input>
+    </form>
+  </body>
+</html>
