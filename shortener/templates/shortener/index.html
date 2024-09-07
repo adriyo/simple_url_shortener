@@ -4,29 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create Link Shortener</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <style>
+      :root {
+        --input-radius: 8px;
+      }
+      body {
+        font-family: "Poppins", system-ui;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+
       form {
-        background-color: #dedede; 
+        min-width: 500px;
         display: flex;
         flex-direction: column;
+        padding: 20px;
+        border: 3px solid #efefef;
+        border-radius: var(--input-radius);
       }
 
       input[type="text"] {
-        padding: 12px 12px;
+        width: 100%;
+        padding: 15px;
         box-sizing: border-box;
+        border-radius: var(--input-radius);
+        border: 1px solid #efefef;
+      }
+
+      .sv-12 {
+        padding-bottom: 25px;
+      }
+
+      button[type="submit"] {
+        color: #ffffff;
+        padding: 12px 24px 12px 24px;
+        background-color: #000000;
+        border-radius: var(--input-radius);
+        border: none;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        padding: 20em;
+      }
+
+      .text-error {
+        font-size: 0.8em;
+        color: red; 
+      }
+
+      .box-success {
+        padding: 12px 20px 12px 20px;
+        background-color: #d4edda;
+        border-radius: var(--input-radius);
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+      
+      .box-error {
+        padding: 12px 20px 12px 20px;
+        background-color: #f8d7da;
+        border-radius: var(--input-radius);
+        border: 1px solid #f5c6cb;
+        color: #721c24;
       }
 
     </style>
   </head>
   <body>
-    <form action="{% url 'shortener:result' %}" method="post">
-      {% csrf_token %}
-      <label for="url">URL</label>
-      <input type="text" name="url" id="url" />
-      <br/>
-      <label for="alias">Alias</label>
-      <input type="text" name="alias" id="alias"/>
-      <input type="submit">Submit</input>
-    </form>
+    <div class="container">
+      <form action="{% url 'shortener:generate_alias' %}" method="post">
+        {% csrf_token %}
+        <label for="url">URL Destination</label>
+        <input type="text" name="url" id="url" placeholder="input url here" value="{{ url }}" required />
+        {% if error_url %}<span class="text-error">{{ error_url }}</span> {% endif %}
+        <br/>
+        <label for="alias">Alias</label>
+        <input type="text" name="alias" id="alias" placeholder="Input path alias" value="{{ alias }}" required />
+        {% if error_alias %}<span class="text-error">{{ error_alias }}</span> {% endif %}
+        <div class="sv-12"></div>
+        <button type="submit" value="Submit">Generate</button>
+        <div class="sv-12"></div>
+        {% if message %}
+        <div class="box-success">
+          <span>
+            <a href="{{ generated_url }}">{{ generated_url }}</a> {{ message }}
+          </span> 
+        </div>
+        {% endif %}
+        {% if error %}
+        <div class="box-error">
+          <span> 
+            {{ error }}
+          </span> 
+        </div>
+        {% endif %}
+      </form>
+    </div>
   </body>
 </html>
