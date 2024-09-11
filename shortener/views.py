@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import UrlMapping
@@ -21,13 +21,11 @@ def result(request):
 
     try:
         is_url_invalid = len(url) < 5
-        is_alias_invalid = len(alias) < 5
-        if is_url_invalid or is_alias_invalid:
+        if is_url_invalid:
             context = {
                 "url": url,
                 "alias": alias,
                 "error_url": "URL is invalid",
-                "error_alias": "Path is invalid",
             }
             return render(request, "shortener/index.html", context)
 
@@ -42,8 +40,18 @@ def result(request):
         url_mapping.save()
         context["message"] = " successfully created"
         current_host = request.build_absolute_uri("/")
-        context["generated_url"] = f"{current_host}{alias}"
+        context["generated_url"] = f"{current_host}s/{alias}"
         return render(request, "shortener/index.html", context)
     except IntegrityError:
         context.update({"error": "URL or Alias already exists"})
         return render(request, "shortener/index.html", context)
+
+
+def redirect(request, alias):
+    try:
+        url_mapping = UrlMapping.objects.get(short_url=alias)
+        url_mapping.click_count += 1
+        url_mapping.save()
+        return HttpResponseRedirect(url_mapping.long_url)
+    except UrlMapping.DoesNotExist:
+        return HttpResponseNotFound("URL Not Found")
