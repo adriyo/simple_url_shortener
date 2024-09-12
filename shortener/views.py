@@ -54,4 +54,5 @@ def redirect(request, alias):
         url_mapping.save()
         return HttpResponseRedirect(url_mapping.long_url)
     except UrlMapping.DoesNotExist:
-        return HttpResponseNotFound("URL Not Found")
+        context = {"error_message": "URL Not Found"}
+        return render(request, "shortener/error.html", context)
