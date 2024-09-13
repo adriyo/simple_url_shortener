@@ -4,77 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create Link Shortener</title>
+    {% load static %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <style>
-      :root {
-        --input-radius: 8px;
-      }
-      body {
-        font-family: "Poppins", system-ui;
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-      }
-
-      form {
-        min-width: 500px;
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        border: 3px solid #efefef;
-        border-radius: var(--input-radius);
-      }
-
-      input[type="text"] {
-        width: 100%;
-        padding: 15px;
-        box-sizing: border-box;
-        border-radius: var(--input-radius);
-        border: 1px solid #efefef;
-      }
-
-      .sv-12 {
-        padding-bottom: 25px;
-      }
-
-      button[type="submit"] {
-        color: #ffffff;
-        padding: 12px 24px 12px 24px;
-        background-color: #000000;
-        border-radius: var(--input-radius);
-        border: none;
-      }
-
-      .container {
-        display: flex;
-        justify-content: center;
-        padding: 20em;
-      }
-
-      .text-error {
-        font-size: 0.8em;
-        color: red; 
-      }
-
-      .box-success {
-        padding: 12px 20px 12px 20px;
-        background-color: #d4edda;
-        border-radius: var(--input-radius);
-        border: 1px solid #c3e6cb;
-        color: #155724;
-      }
-      
-      .box-error {
-        padding: 12px 20px 12px 20px;
-        background-color: #f8d7da;
-        border-radius: var(--input-radius);
-        border: 1px solid #f5c6cb;
-        color: #721c24;
-      }
-
-    </style>
+    <link rel="stylesheet" href="{% static 'shortener/style.css' %}" >
   </head>
   <body>
     <div class="container">
