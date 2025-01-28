@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Create Link Shortener</title>
+    <title>URL Shortener</title>
     {% load static %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,49 +15,44 @@
   </head>
   <body>
     <div class="container">
-      <form action="{% url 'shortener:generate_alias' %}" method="post">
+      <form action="{% url 'core:login' %}" method="post" class="login-form">
         {% csrf_token %}
-        <label for="url">URL Destination</label>
+        <label for="email">Email</label>
         <input
           type="text"
-          name="url"
-          id="url"
-          placeholder="input url here"
-          value="{{ url }}"
+          name="email"
+          id="email"
+          placeholder="Enter your email here..."
+          value="{{ email }}"
           class="input"
           required
         />
-        {% if error_url %}
-        <span class="text-error">{{ error_url }}</span>
+        <br />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter your password here..."
+          value="{{ password }}"
+          class="input"
+          required
+        />
+        <div class="sv-12"></div>
+        <div class="container-row-buttons">
+          <button type="submit" value="Submit" class="elevated-button">
+            Sign In
+          </button>
+          <a href="/shortener" class="outlined-button">Register</a>
+        </div>
+        <div class="sv-12"></div>
+        {% if error %}
+        <div class="box-error">
+          <span>{{ error }}</span>
+        </div>
         {% endif %}
         <br />
-        <label for="alias">Alias</label>
-        <input
-          type="text"
-          name="alias"
-          id="alias"
-          placeholder="Input path alias"
-          value="{{ alias }}"
-          class="input"
-          required
-        />
-        {% if error_alias %}
-        <span class="text-error">{{ error_alias }}</span>
-        {% endif %}
-        <div class="sv-12"></div>
-        <button type="submit" value="Submit">Generate</button>
-        <div class="sv-12"></div>
-        {% if message %}
-        <div class="box-success">
-          <span>
-            <a href="{{ generated_url }}">{{ generated_url }}</a> {{ message }}
-          </span>
-        </div>
-        {% endif %} {% if error %}
-        <div class="box-error">
-          <span> {{ error }} </span>
-        </div>
-        {% endif %}
+        <a href="/shortener" class="small-link-button align-right">Skip</a>
       </form>
     </div>
   </body>

@@ -20,6 +20,7 @@ from django.urls import include, path
 from shortener import views
 
 urlpatterns = [
+    path("", include("core.urls")),
     path("shortener/", include("shortener.urls")),
     path("admin/", admin.site.urls),
     path("s/<str:alias>", views.redirect, name="redirect"),
