@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>URL Shortener</title>
+    <title>Registration</title>
     {% load static %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="container">
-      <form action="{% url 'core:login' %}" method="post" class="login-form">
+      <form action="{% url 'core:register' %}" method="post" class="login-form">
         {% csrf_token %}
         <label for="email">Email</label>
         <input
@@ -38,12 +38,33 @@
           class="input"
           required
         />
+        <br />
+        <label for="password">First Name</label>
+        <input
+          type="first_name"
+          name="first_name"
+          id="first_name"
+          placeholder="Enter your name here..."
+          value="{{ first_name }}"
+          class="input"
+          required
+        />
+        <br />
+        <label for="password">Last Name</label>
+        <input
+          type="last_name"
+          name="last_name"
+          id="last_name"
+          placeholder="Enter your last name here..."
+          value="{{ last_name }}"
+          class="input"
+          required
+        />
         <div class="sv-12"></div>
         <div class="container-row-buttons">
           <button type="submit" value="Submit" class="elevated-button">
-            Sign In
+            Register 
           </button>
-          <a href="/register" class="outlined-button">Register</a>
         </div>
         <div class="sv-12"></div>
         {% if error %}
@@ -51,9 +72,7 @@
           <span>{{ error }}</span>
         </div>
         {% endif %}
-        <br />
-        <a href="/shortener" class="small-link-button align-right">Skip</a>
       </form>
     </div>
   </body>
-</html>
+<
