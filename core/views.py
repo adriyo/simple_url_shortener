@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -59,6 +60,16 @@ def submitRegistration(request):
             last_name=context["last_name"],
         )
         user.save()
+    except IntegrityError as e:
+        error_message = str(e)
+        if (
+            "auth_user_username_key" in error_message
+            or "auth_user_email_key" in error_message
+        ):
+            context["error"] = "The email is already taken"
+        else:
+            context["error"] = "An error occured. Please check your input"
+        return render(request, "register.html", context)
     except Exception as e:
         context["error"] = f"Error: {e}"
         return render(request, "register.html", context)
