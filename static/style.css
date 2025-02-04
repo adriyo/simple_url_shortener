@@ -9,18 +9,9 @@ body {
     min-height: 100vh;
 }
 
-form {
-    min-width: 500px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border: 3px solid #efefef;
-    border-radius: var(--input-radius);
-}
-
 .login-form {
     min-width: 300px;
-    width: 500ox;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     padding: 20px;

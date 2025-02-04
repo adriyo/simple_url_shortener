@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="container">
-      <form action="{% url 'shortener:generate_alias' %}" method="post">
+      <form action="{% url 'shortener:generate_alias' %}" method="post" class="login-form">
         {% csrf_token %}
         <label for="url">URL Destination</label>
         <input
