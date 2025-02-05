@@ -18,10 +18,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from shortener import views
+from core import views as core_views
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("shortener/", include("shortener.urls")),
-    path("admin/", admin.site.urls),
     path("s/<str:alias>", views.redirect, name="redirect"),
+    path("accounts/logout/", core_views.logout_view, name="logout"),
+    path("accounts/login/", core_views.login_view, name="login"),
+    path("accounts/register/", core_views.register, name="register"),
+    path("links/", core_views.links_view, name="links"),
 ]

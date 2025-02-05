@@ -3,57 +3,113 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>URL Shortener</title>
+    <title>Dashboard</title>
     {% load static %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        display: flex;
+        height: 100vh;
+      }
+      .sidebar {
+        width: 250px;
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar .user-info {
+        margin-bottom: 20px;
+      }
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar button {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .content {
+        flex-grow: 1;
+        padding: 20px;
+        background: #ecf0f1;
+      }
+      .sidebar nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .sidebar nav ul li {
+        margin: 10px 0;
+      }
+      .sidebar nav ul li a {
+        display: block;
+        text-decoration: none;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+      .sidebar nav ul li a:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .sidebar nav ul li a.active {
+        background: #1abc9c;
+        font-weight: bold;
+      }
+      .sidebar button {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 100%;
+      }
+      .nav-menu {
+        flex-grow: 1;
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
-      <form action="{% url 'core:login' %}" method="post" class="login-form">
+    <div class="sidebar">
+      <div class="user-info">
+        <span>{{ request.user.email }}</span>
+        <span>{{ request.user.username }}</span>
+      </div>
+      <nav class="nav-menu">
+        <ul>
+          <li>
+            <a
+              href="{% url 'links' %}"
+              class="{% if request.path == '/links/' %}active{% endif %}"
+              >My Links</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
-        <label for="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          placeholder="Enter your email here..."
-          value="{{ email }}"
-          class="input"
-          required
-        />
-        <br />
-        <label for="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Enter your password here..."
-          value="{{ password }}"
-          class="input"
-          required
-        />
-        <div class="sv-12"></div>
-        <div class="container-row-buttons">
-          <button type="submit" value="Submit" class="elevated-button">
-            Sign In
-          </button>
-          <a href="/register" class="outlined-button">Register</a>
-        </div>
-        <div class="sv-12"></div>
-        {% if error %}
-        <div class="box-error">
-          <span>{{ error }}</span>
-        </div>
-        {% endif %}
-        <br />
-        <a href="/shortener" class="small-link-button align-right">Skip</a>
+        <button type="submit">Logout</button>
       </form>
+    </div>
+    <div class="content">
+      {% block content %}
+      <h1>This is home</h1>
+      {% endblock %}
     </div>
   </body>
 </html>

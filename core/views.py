@@ -1,27 +1,42 @@
+from re import error
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from .models import User
+from django.contrib.auth.decorators import login_required
+from django.views import View
 from .forms import RegisterForm
 
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, "login.html")
 
-
-def login(request):
-    try:
-        email = request.POST["email"]
-        password = request.POST["password"]
+def login_view(request):
+    error_message = None
+    context = {}
+    if request.method == 'POST':
+        email = request.POST.get("email")
+        password = request.POST.get("password")
         context = {"email": email, "password": password}
-    except KeyError:
-        return redirect(reverse("core:index"))
-    context = {
-        "email": email,
-        "password": password,
-        "error": "Email or password is invalid",
-    }
-    return render(request, "index.html", context)
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            next_url = request.POST.get("next") or request.GET.get("next") or "links"
+            return redirect(next_url)
+        else:
+            error_message = "Email or password is invalid"
+        context = {
+            "email": email,
+            "password": password,
+            "error": error_message,
+        }
+    return render(request, "login.html", context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("core:home")
 
 
 def register(request):
@@ -76,9 +91,16 @@ def submitRegistration(request):
 
     return redirect("core:index")
 
+def links_view(request):
+    return render(request, "links.html", {'links': []})
 
 def get_default_username(email):
     import re
 
     local_part = email.split("@")[0]
     return re.sub(r"[^a-zA-Z0-9]", "", local_part)
+
+
+@login_required()
+def home_view(request):
+    return render(request, "index.html")

@@ -1,0 +1,28 @@
+{% extends 'index.html' %} {% block content %}
+<h1>Your Shortened Links</h1>
+{% if links %}
+<table border="1" width="100%" cellpadding="10">
+  <thead>
+    <tr>
+      <th>Original URL</th>
+      <th>Short URL</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for link in links %}
+    <tr>
+      <td>{{ link.original_url }}</td>
+      <td>
+        <a href="{{ link.short_url }}" target="_blank">{{ link.short_url }}</a>
+      </td>
+      <td>
+        <a href="{% url 'edit_link' link.id %}">Edit</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No shortened links found. Start by creating a new one!</p>
+{% endif %} {% endblock %}
