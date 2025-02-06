@@ -1,11 +1,10 @@
-from re import error
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+
+from shortener.models import UrlMapping
 from .models import User
 from django.contrib.auth.decorators import login_required
-from django.views import View
 from .forms import RegisterForm
 
 
@@ -92,7 +91,8 @@ def submitRegistration(request):
     return redirect("core:index")
 
 def links_view(request):
-    return render(request, "links.html", {'links': []})
+    links = UrlMapping.objects.filter(user=request.user)
+    return render(request, "links.html", {'links': links})
 
 def get_default_username(email):
     import re

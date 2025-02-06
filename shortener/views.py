@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import UrlMapping
@@ -29,25 +29,32 @@ def result(request):
             }
             return render(request, "shortener/index.html", context)
 
+        user = request.user
+        if user.is_anonymous:
+            user = None
+
         url_mapping = UrlMapping(
             short_url=alias,
             long_url=url,
             created_at=timezone.now(),
             expired_at=timezone.now() + timezone.timedelta(days=30),
-            user=None,
+            user=user,
             click_count=0,
         )
         url_mapping.save()
         context["message"] = " successfully created"
         current_host = request.build_absolute_uri("/")
         context["generated_url"] = f"{current_host}s/{alias}"
+        if user is not None:
+            return redirect("core:links")
         return render(request, "shortener/index.html", context)
+
     except IntegrityError:
         context.update({"error": "URL or Alias already exists"})
         return render(request, "shortener/index.html", context)
 
 
-def redirect(request, alias):
+def redirect_url(request, alias):
     try:
         url_mapping = UrlMapping.objects.get(short_url=alias)
         url_mapping.click_count += 1
@@ -56,3 +63,10 @@ def redirect(request, alias):
     except UrlMapping.DoesNotExist:
         context = {"error_message": "URL Not Found"}
         return render(request, "shortener/error.html", context)
+
+def create_link_view(request):
+    return render(request, "shortener/create.html")
+
+def edit_link_view(request, id):
+    link = UrlMapping.objects.get(id=id)
+    return render(request, "shortener/create.html", {'link': link})

@@ -1,0 +1,67 @@
+{% extends "index.html" %} {% load static %} {% block content %}
+<div class="content-container">
+  <div class="content-appbar">
+    {% if link %}
+    <h5>Edit Short Link</h5>
+    {% else %}
+    <h5>Create a New Short Link</h5>
+    {% endif %}
+  </div>
+
+  <form
+    action="{% url 'shortener:generate_alias' %}"
+    method="post"
+    class="login-form border-none"
+  >
+    {% csrf_token %}
+
+    <label for="url">URL Destination</label>
+
+    <input
+      type="text"
+      name="url"
+      id="url"
+      placeholder="Input URL here"
+      value="{{ link.long_url }}"
+      class="input"
+      required
+    />
+    {% if error_url %}
+    <span class="text-error">{{ error_url }}</span>
+    {% endif %}
+
+    <br />
+
+    <label for="alias">Alias</label>
+    <input
+      type="text"
+      name="alias"
+      id="alias"
+      placeholder="Input path alias"
+      value="{{ link.short_url }}"
+      class="input"
+      required
+    />
+    {% if error_alias %}
+    <span class="text-error">{{ error_alias }}</span>
+    {% endif %}
+
+    <div class="sv-12"></div>
+    <button type="submit">Generate</button>
+
+    <div class="sv-12"></div>
+
+    {% if message %}
+    <div class="box-success">
+      <span>
+        <a href="{{ generated_url }}">{{ generated_url }}</a> {{ message }}
+      </span>
+    </div>
+    {% endif %} {% if error %}
+    <div class="box-error">
+      <span> {{ error }} </span>
+    </div>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("shortener/", include("shortener.urls")),
-    path("s/<str:alias>", views.redirect, name="redirect"),
+    path("s/<str:alias>", views.redirect_url, name="redirect"),
     path("accounts/logout/", core_views.logout_view, name="logout"),
     path("accounts/login/", core_views.login_view, name="login"),
     path("accounts/register/", core_views.register, name="register"),

@@ -1,5 +1,6 @@
 :root {
     --input-radius: 8px;
+    --default-padding: 20px;
 }
 
 body {
@@ -14,9 +15,13 @@ body {
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: var(--default-padding);
     border: 3px solid #efefef;
     border-radius: var(--input-radius);
+}
+
+.login-form.border-none {
+    border: none;
 }
 
 .input {
@@ -90,8 +95,9 @@ button[type="submit"] {
     color: white;
     border-radius: var(--input-radius);
     border: 1px solid black;
-    padding: 10px 0 10px 0;
+    padding: 10px 10px 10px 10px;
     font-size: 14px;
+    text-decoration: none;
 }
 
 .elevated-button:active {
@@ -133,4 +139,64 @@ button[type="submit"] {
 .align-right {
     margin-left: auto;
     margin-right: 0;
+}
+
+.links-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tbl-view {
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    border-collapse: none;
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: normal;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.tbl-view td,
+.tbl-view th {
+    padding: 8px;
+}
+
+.tbl-view td {
+    border-right: 1px solid #f8f8f8;
+}
+
+.tbl-view thead th {
+    color: #ffffff;
+    background: #324960;
+}
+
+.tbl-view tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: left;
+    background: white;
+    border-radius: var(--input-radius);
+    padding: 12px;
+}
+
+.content-appbar {
+    padding-left: var(--default-padding);
+    border-bottom: 1px solid #ccc;
+}
+
+hr.solid {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
 }

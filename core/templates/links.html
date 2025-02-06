@@ -1,23 +1,29 @@
 {% extends 'index.html' %} {% block content %}
-<h1>Your Shortened Links</h1>
+<div class="links-header">
+  <h4>Your Shortened Links</h4>
+  <a href="/links/create" class="elevated-button">+ Create New</a>
+</div>
+
 {% if links %}
-<table border="1" width="100%" cellpadding="10">
+<table class="tbl-view">
   <thead>
     <tr>
       <th>Original URL</th>
       <th>Short URL</th>
+      <th>Created At</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     {% for link in links %}
     <tr>
-      <td>{{ link.original_url }}</td>
+      <td>{{ link.long_url }}</td>
       <td>
         <a href="{{ link.short_url }}" target="_blank">{{ link.short_url }}</a>
       </td>
+      <td>{{ link.created_at }}</td>
       <td>
-        <a href="{% url 'edit_link' link.id %}">Edit</a>
+        <a href="/links/edit/{{link.id}}">Edit</a>
       </td>
     </tr>
     {% endfor %}
